@@ -8,6 +8,6 @@ VOC形式のデータに基づいて画像をトリミングして、その結�
 　1. git clone https://github.com/tanik12/trimimg_save.git<br>
 　2. VOC形式のデータセットをダウンロードまたは自作のデータセットを準備してください。<br>
 　3. main.pyの9行目のpathを自分の環境に合わせるよう変更してください。(2のxmlのpath)<br>
- 　  annotationディレクトリのパス(xmlがあるパス)の指定をしてください。
+ 　  annotationディレクトリのパス(xmlがあるパス)の指定をしてください。<br>
 　　 xmlに記載されている画像pathにちゃんと画像があるかもチェックするように。<br>
 　4. python main.py<br>
