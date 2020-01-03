@@ -27,15 +27,20 @@ def trm_img(img_path, bdbox):
     cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name, im)
 
 #トリミングして画像を保存する。
-def make_img(xml_path, xml_info):
+def make_img(xml_path, xml_info, desired_obj_names):
     img_dir = "./" + dirpath_img
+
     for item in xml_info:
         img_path = item["img_path"]
+        obj_names = item["obj_names"]
+
         bdboxes = item["bdoxes"]
-        for bdbox in bdboxes:
-            trm_img(img_path, bdbox)
+        for idx, bdbox in enumerate(bdboxes):
+            if obj_names[idx] in desired_obj_names:
+                trm_img(img_path, bdbox)
 
 if __name__ == "__main__":
+    desired_obj_names = ["traffic signal", "pedestrian signal"]
     cofirm_dir()
     
     # xml fileがあるディレクトリのパス
@@ -43,4 +48,4 @@ if __name__ == "__main__":
     xml_info = get_xml_info(xml_path)
     
     #print(xml_info[10]) #Debug用
-    make_img(xml_path, xml_info)
+    make_img(xml_path, xml_info, desired_obj_names)
