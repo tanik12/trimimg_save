@@ -10,7 +10,7 @@ def main():
     xml_info = get_xml_info(xml_path)
 
     #print(xml_info[10]) #Debug用
-    make_img(xml_path, xml_info, desired_obj_names)
+    make_img(xml_path, xml_info, desired_obj_names, trimming_flag=True)
     
 if __name__ == "__main__":
     main()
