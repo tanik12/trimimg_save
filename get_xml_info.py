@@ -38,7 +38,8 @@ def get_xml_info(xml_path):
                 #print("===========") #Debug用
                 #print("object_name: ", obj.find("name").text, ", バウンディングボックス: ", bd_list) #Debug用
                 
-        xml_info["img_path"] = xml_path + file_name
+        xml_info["img_path"] = img_path
+        xml_info["xml_path"] = xml_path + file_name
         xml_info["obj_names"] = obj_names
         xml_info["bdoxes"] = bd_lists
 
