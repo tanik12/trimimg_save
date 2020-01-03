@@ -29,10 +29,10 @@ def get_xml_info(xml_path):
             #オブジェクトごとのラベル名とバウンディングボックス情報を取得する。
             bdbox_info = obj.findall("bndbox")
             for bd in bdbox_info:
-                xmin = bd.find("xmin").text
-                ymin = bd.find("ymin").text
-                xmax = bd.find("xmax").text
-                ymax = bd.find("ymax").text
+                xmin = int(bd.find("xmin").text)
+                ymin = int(bd.find("ymin").text)
+                xmax = int(bd.find("xmax").text)
+                ymax = int(bd.find("ymax").text)
                 bd_list += [xmin, ymin, xmax, ymax]
                 bd_lists.append(bd_list)
                 #print("===========") #Debug用
