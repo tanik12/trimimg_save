@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 import os
 
-def read_xml(xml_path):
+def get_xml_info(xml_path):
     xml_files = os.listdir(xml_path)
     print("画像の合計枚数: ", len(xml_files))
     for file_name in xml_files:
@@ -30,4 +30,4 @@ def read_xml(xml_path):
 if __name__ == "__main__":    
     # xml fileがあるディレクトリのパス
     xml_path = "/home/tani/git/traffic_light_dataset/Anotations/"
-    read_xml(xml_path) 
+    get_xml_info(xml_path) 
