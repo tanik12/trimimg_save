@@ -10,13 +10,24 @@ dirpath_img = '/trm_images'
 #ないのであればディレクトリを作成。
 def cofirm_dir():
     current_path = os.getcwd()
-    #dirpath_anno = '/trm_images'
 
     if not os.path.isdir(current_path + dirpath_img):
         os.mkdir("." + dirpath_img)
 
+#ディレクトリの存在確認をする処理。
+#ないのであればディレクトリを作成。
+def cofirm_dires(desired_obj_names):
+    current_path = os.getcwd()
+
+    if not os.path.isdir(current_path + dirpath_img):
+        os.mkdir("." + dirpath_img)
+
+    for obj_name in desired_obj_names:
+        if not os.path.isdir(current_path + "/" + obj_name):
+            os.mkdir(obj_name)
+
 #アノテーションの情報を基にトリミング
-def trm_img(img_path, bdbox, trimming_flag):
+def trm_img(img_path, obj_name, bdbox, count, trimming_flag):
     if trimming_flag:
         #ファイル名のみ抽出
         file_name = os.path.basename(img_path)
@@ -39,27 +50,30 @@ def trm_img(img_path, bdbox, trimming_flag):
             #resize
             im = cv2.resize(im, (height, weight))
             #トリミング済みの画像を保存
-            cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name, im)
+            cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name.replace(".jpg", "") + "_" + str(count) + ".jpg", im)
+            cv2.imwrite("./" + obj_name  + "/trm_" + file_name.replace(".jpg", "")  + "_" + str(count) + ".jpg", im)
     else:
         pass
 
 #トリミングして画像を保存する。
 def make_img(xml_path, xml_info, desired_obj_names, trimming_flag=False):
-    img_dir = "./" + dirpath_img
-
     for item in xml_info:
         img_path = item["img_path"]
         obj_names = item["obj_names"]
 
         bdboxes = item["bdoxes"]
+        count = 0
         for idx, bdbox in enumerate(bdboxes):
-            if obj_names[idx] in desired_obj_names:
-                trm_img(img_path, bdbox, trimming_flag)
+            obj = obj_names[idx].replace(" ", "_")
+            if obj in desired_obj_names:
+                trm_img(img_path, obj, bdbox, count, trimming_flag)
+                count += 1
 
 if __name__ == "__main__":
-    desired_obj_names = ["traffic signal", "pedestrian signal"]
+    desired_obj_names = ["traffic_signal", "pedestrian_signal"]
     cofirm_dir()
-    
+    cofirm_dires(desired_obj_names)
+
     # xml fileがあるディレクトリのパス
     xml_path = "/home/tani/git/traffic_light_dataset/Anotations/"
     xml_info = get_xml_info(xml_path)

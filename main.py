@@ -2,8 +2,9 @@ from get_xml_info import get_xml_info
 from trim_img import *
 
 def main():
-    desired_obj_names = ["traffic signal", "pedestrian signal"] #トリミングしてほしいラベル名を指定
+    desired_obj_names = ["traffic_signal", "pedestrian_signal"] #トリミングしてほしいラベル名を指定
     cofirm_dir()
+    cofirm_dires(desired_obj_names)
 
     # xml fileがあるディレクトリのパス
     xml_path = "/home/tani/git/traffic_light_dataset/Anotations/"
