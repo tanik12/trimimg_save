@@ -22,12 +22,22 @@ def trm_img(img_path, bdbox, trimming_flag):
         file_name = os.path.basename(img_path)
         #画像の読み込み
         im = cv2.imread(img_path, 1)
+        height = 24
+        weight = 24
 
-        if bdbox[3]-bdbox[1] < 128 and bdbox[2]-bdbox[0] < 128:
+        if bdbox[3]-bdbox[1] < height or bdbox[2]-bdbox[0] < weight:
+            pass
+            ##画像をトリミング
+            #im = im[bdbox[1]:bdbox[3], bdbox[0]:bdbox[2]]
+            ##resize
+            #im = cv2.resize(im, (height, weight))
+            ##トリミング済みの画像を保存
+            #cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name, im)
+        else:
             #画像をトリミング
             im = im[bdbox[1]:bdbox[3], bdbox[0]:bdbox[2]]
             #resize
-            im = cv2.resize(im,(128,128))
+            im = cv2.resize(im, (height, weight))
             #トリミング済みの画像を保存
             cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name, im)
     else:
