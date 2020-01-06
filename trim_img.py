@@ -1,4 +1,6 @@
 import os
+import sys
+sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages')
 import cv2
 import shutil
 
@@ -31,27 +33,47 @@ def trm_img(img_path, obj_name, bdbox, count, trimming_flag):
     if trimming_flag:
         #ファイル名のみ抽出
         file_name = os.path.basename(img_path)
+        img_path = img_path.replace("tani", "gisen")
         #画像の読み込み
         im = cv2.imread(img_path, 1)
         height = 24
         weight = 24
-
-        if bdbox[3]-bdbox[1] < height or bdbox[2]-bdbox[0] < weight:
-            pass
-            ##画像をトリミング
-            #im = im[bdbox[1]:bdbox[3], bdbox[0]:bdbox[2]]
-            ##resize
-            #im = cv2.resize(im, (height, weight))
-            ##トリミング済みの画像を保存
-            #cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name, im)
+        print(img_path, obj_name, bdbox[:])
+        if obj_name == "traffic_signal":
+            if not bdbox[2]-bdbox[0] < weight:    
+                #画像をトリミング
+                im = im[bdbox[1]:bdbox[3], bdbox[0]:bdbox[2]]
+                #resize
+                im = cv2.resize(im, (256, 256))
+                #トリミング済みの画像を保存
+                cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name.replace(".jpg", "") + "_" + str(count) + ".jpg", im)
+                cv2.imwrite("./" + obj_name  + "/trm_" + file_name.replace(".jpg", "")  + "_" + str(count) + ".jpg", im)
         else:
-            #画像をトリミング
-            im = im[bdbox[1]:bdbox[3], bdbox[0]:bdbox[2]]
-            #resize
-            im = cv2.resize(im, (height, weight))
-            #トリミング済みの画像を保存
-            cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name.replace(".jpg", "") + "_" + str(count) + ".jpg", im)
-            cv2.imwrite("./" + obj_name  + "/trm_" + file_name.replace(".jpg", "")  + "_" + str(count) + ".jpg", im)
+            if not bdbox[3]-bdbox[1] < height:
+                #画像をトリミング
+                im = im[bdbox[1]:bdbox[3], bdbox[0]:bdbox[2]]
+                #resize
+                im = cv2.resize(im, (256, 256))
+                #トリミング済みの画像を保存
+                cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name.replace(".jpg", "") + "_" + str(count) + ".jpg", im)
+                cv2.imwrite("./" + obj_name  + "/trm_" + file_name.replace(".jpg", "")  + "_" + str(count) + ".jpg", im)
+
+        #if bdbox[3]-bdbox[1] < height or bdbox[2]-bdbox[0] < weight:
+        #    pass
+        #    ##画像をトリミング
+        #    #im = im[bdbox[1]:bdbox[3], bdbox[0]:bdbox[2]]
+        #    ##resize
+        #    #im = cv2.resize(im, (height, weight))
+        #    ##トリミング済みの画像を保存
+        #    #cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name, im)
+        #else:
+        #    #画像をトリミング
+        #    im = im[bdbox[1]:bdbox[3], bdbox[0]:bdbox[2]]
+        #    #resize
+        #    im = cv2.resize(im, (height, weight))
+        #    #トリミング済みの画像を保存
+        #    cv2.imwrite("./" + dirpath_img  + "/trm_" + file_name.replace(".jpg", "") + "_" + str(count) + ".jpg", im)
+        #    cv2.imwrite("./" + obj_name  + "/trm_" + file_name.replace(".jpg", "")  + "_" + str(count) + ".jpg", im)
     else:
         pass
 
@@ -75,7 +97,8 @@ if __name__ == "__main__":
     cofirm_dires(desired_obj_names)
 
     # xml fileがあるディレクトリのパス
-    xml_path = "/home/tani/git/traffic_light_dataset/Anotations/"
+    #xml_path = "/home/tani/git/traffic_light_dataset/Anotations/"
+    xml_path = "/home/gisen/git/traffic_light_dataset/Anotations/"
     xml_info = get_xml_info(xml_path)
     
     #print(xml_info[10]) #Debug用

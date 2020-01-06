@@ -7,7 +7,8 @@ def main():
     cofirm_dires(desired_obj_names)
 
     # xml fileがあるディレクトリのパス
-    xml_path = "/home/tani/git/traffic_light_dataset/Anotations/"
+    #xml_path = "/home/tani/git/traffic_light_dataset/Anotations/"
+    xml_path = "/home/gisen/git/traffic_light_dataset/Anotations/"
     xml_info = get_xml_info(xml_path)
 
     #print(xml_info[10]) #Debug用
